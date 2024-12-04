@@ -12,8 +12,8 @@ import { Provider } from "react-redux";
 import Header from "./shares/components/Layout/Header";
 import Sidebar from "./shares/components/Layout/Sidebar";
 import Customers from "./pages/customer";
-import PageHeader from "./shares/components/Layout/PageHeader";
 import Home from "./pages/home";
+import AddCustomer from "./pages/customer/addCustomer";
 
 const App = () => {
 
@@ -24,10 +24,13 @@ const App = () => {
         <Header />
         <Sidebar />
         <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-          <PageHeader />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/customers" element={<Customers />} />
+            <Route path="/customers"> 
+                <Route index element= {<Customers/>} />
+                <Route path="create" element={<AddCustomer/>} />
+            </Route>
+            
           </Routes>
         </div>
 

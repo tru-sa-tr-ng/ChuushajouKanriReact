@@ -2,13 +2,10 @@ const Header = () => (
     <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div className="container-fluid">
             <div className="navbar-header">
-                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-                    <span className="sr-only">Toggle navigation</span>
-                    <span className="icon-bar" />
-                    <span className="icon-bar" />
-                    <span className="icon-bar" />
-                </button>
+
                 <a className="navbar-brand" href="#"><span>駐車</span>管理</a>
+
+
                 <ul className="user-menu">
                     <li className="dropdown pull-right">
                         <a href="#" className="dropdown-toggle" data-toggle="dropdown"><svg className="glyph stroked male-user"><use xlinkHref="#stroked-male-user" /></svg> Admin <span className="caret" /></a>
