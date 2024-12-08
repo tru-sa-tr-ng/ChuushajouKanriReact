@@ -10,22 +10,22 @@ const addVehicle = () => {
                         <div className="col-md-6">
                             <form role="form" method="post" encType="multipart/form-data">
                                 <div className="form-group">
-                                    <label>Tên khách hàng</label>
+                                    <label>Loại xe</label>
                                     <input required name="customer_name" className="form-control" placeholder />
                                 </div>
                                 <div className="form-group">
-                                    <label>Số điện thoại</label>
+                                    <label>Chủ xe</label>
                                     <input required name="phone_number" type="text" className="form-control" />
                                 </div>
                                 <div className="form-group">
-                                    <label>Địa chỉ</label>
+                                    <label>Slot đỗ xe</label>
                                     <input required name="address" type="text" className="form-control" />
                                 </div>
                                 
                             </form></div>
                         <div className="col-md-6">
                             <div className="form-group">
-                                <label>Ảnh khách hàng</label>
+                                <label>Ảnh xe</label>
                                 <input required name="prd_image" type="file" />
                                 <br />
                                 <div>

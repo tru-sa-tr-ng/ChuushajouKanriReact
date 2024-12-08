@@ -86,7 +86,7 @@ const Vehicles = () => {
                                                         <th ><div className="th-inner sortable">Tên xe</div></th>
                                                         <th ><div className="th-inner sortable">Loại xe</div></th>
                                                         <th ><div className="th-inner sortable">Slot đỗ xe</div></th>
-                                                        <th ><div className="th-inner ">Ảnh </div></th>
+                                                        <th ><div className="th-inner ">Chủ xe</div></th>
                                                         <th ><div className="th-inner ">Hành động</div></th>
                                                     </tr>
                                                 </thead>
