@@ -12,9 +12,10 @@ import { Provider } from "react-redux";
 import Header from "./shares/components/Layout/Header";
 import Sidebar from "./shares/components/Layout/Sidebar";
 import Customers from "./pages/customer";
+import Vehicles from "./pages/vehicle";
 import Home from "./pages/home";
 import AddCustomer from "./pages/customer/addCustomer";
-
+import AddVehicle from "./pages/vehicle/addVehicle";
 const App = () => {
 
 
@@ -30,7 +31,10 @@ const App = () => {
                 <Route index element= {<Customers/>} />
                 <Route path="create" element={<AddCustomer/>} />
             </Route>
-            
+            <Route path="/vehicles"> 
+                <Route index element= {<Vehicles/>} />
+                <Route path="create" element={<AddVehicle/>} />
+            </Route>
           </Routes>
         </div>
 
