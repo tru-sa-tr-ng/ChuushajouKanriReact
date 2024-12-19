@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { getCustomers } from "../../services/Api";
+import { deleteCustomer, getCustomers } from "../../services/Api";
 import Searchbar from "../../shares/components/Layout/Searchbar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
@@ -32,6 +32,11 @@ const Customers = () => {
 
     const fetchMoreData = () => {
         setCurrentPage(currentPage + 1);
+    };
+
+    const onDelete = (id) => {
+        deleteCustomer(id);
+        setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== id));
     };
 
 
@@ -95,15 +100,15 @@ const Customers = () => {
                                                         customers.map((customer) => {
                                                             id++;
                                                             return (
-                                                                <tr index={customer.id}>
+                                                                <tr>
                                                                     <td >{id}</td>
                                                                     <td >{customer.customer_name}</td>
                                                                     <td >{customer.phone_number}</td>
                                                                     <td >{customer.address}</td>
                                                                     <td style={{ textAlign: "center" }} ><img width={150} height={225} src={`https://raw.githubusercontent.com/Dng2511/AnilistImage/refs/heads/main/characters/10/330816.jpg`} /></td>
                                                                     <td className="form-group" >
-                                                                        <a href="product-edit.html" className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></a>
-                                                                        <a href="product-edit.html" className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
+                                                                        <Link to= {`edit/${customer.id}`} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
+                                                                        <a onClick={() => onDelete(customer.id)} className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
                                                                     </td>
                                                                 </tr>
                                                             )

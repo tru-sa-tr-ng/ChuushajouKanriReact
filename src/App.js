@@ -16,6 +16,7 @@ import Vehicles from "./pages/vehicle";
 import Home from "./pages/home";
 import AddCustomer from "./pages/customer/addCustomer";
 import AddVehicle from "./pages/vehicle/addVehicle";
+import EditCustomer from "./pages/customer/editCustomer";
 const App = () => {
 
 
@@ -30,10 +31,12 @@ const App = () => {
             <Route path="/customers"> 
                 <Route index element= {<Customers/>} />
                 <Route path="create" element={<AddCustomer/>} />
+                <Route path="edit/:id" element={<EditCustomer/>} />
             </Route>
             <Route path="/vehicles"> 
                 <Route index element= {<Vehicles/>} />
                 <Route path="create" element={<AddVehicle/>} />
+                <Route path="edit/:id" element={<AddVehicle/>} />
             </Route>
           </Routes>
         </div>
