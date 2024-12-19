@@ -1,14 +1,23 @@
 import React from 'react';
-import { createCustomer } from '../../services/Api';
-import { useNavigate } from 'react-router-dom';
+import { createCustomer, getCustomerById } from '../../services/Api';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddCustomer = () => {
+const EditCustomer = () => {
+    const {id} = useParams();
     const navigate = useNavigate();
     const [info, setInfo] = React.useState({});
     const onChangeInfo = (e) => {
         const { name, value } = e.target;
         setInfo({ ...info, [name]: value });
     }
+
+    React.useEffect(() => {
+        getCustomerById(id).then(({data}) => {
+            setInfo(data.data.customer)
+        });
+        
+
+    },[id]);
 
     const onSubmit = () => {
         createCustomer(info).then(({ data }) => {
@@ -77,4 +86,4 @@ const AddCustomer = () => {
 
 };
 
-export default AddCustomer;
+export default EditCustomer;
