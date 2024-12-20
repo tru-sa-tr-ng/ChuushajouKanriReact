@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { getCustomers } from "../../services/Api";
+import {  getVehicles } from "../../services/Api";
 import Searchbar from "../../shares/components/Layout/Searchbar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
@@ -11,19 +11,19 @@ const Vehicles = () => {
     const [searchParams] = useSearchParams();
     let id = 0;
     const [hasMore, setHasMore] = React.useState(true);
-    const [customers, setVehicles] = React.useState([]);
+    const [vehicles, setVehicles] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [loading, setLoading] = React.useState(false);
     React.useEffect(() => {
         setLoading(true);
-        getCustomers({
+        getVehicles({
             params: {
                 page: currentPage,
                 limit: 12,
             }
         }).then(({ data }) => {
-            if (customers.length == 0) setVehicles(data.data);
-            else setVehicles((prevCustomers) => [...prevCustomers, ...data.data]);
+            if (vehicles.length == 0) setVehicles(data.data);
+            else setVehicles((prevVehicles) => [...prevVehicles, ...data.data]);
             setHasMore(data.pages.hasNext)
         }).catch(() => {
             setLoading(false);
@@ -71,7 +71,7 @@ const Vehicles = () => {
                                     </div>
                                     <div className="fixed-table-body">
                                         <InfiniteScroll
-                                            dataLength={customers.length}
+                                            dataLength={vehicles.length}
                                             next={fetchMoreData}
                                             hasMore={hasMore}
                                             loader={
@@ -83,24 +83,26 @@ const Vehicles = () => {
                                                 <thead>
                                                     <tr>
                                                         <th ><div className="th-inner sortable">ID</div></th>
-                                                        <th ><div className="th-inner sortable">Tên xe</div></th>
+                                                        <th ><div className="th-inner sortable">Biển số xe</div></th>
                                                         <th ><div className="th-inner sortable">Loại xe</div></th>
-                                                        <th ><div className="th-inner sortable">Slot đỗ xe</div></th>
-                                                        <th ><div className="th-inner ">Chủ xe</div></th>
+                                                        <th ><div className="th-inner ">Ảnh </div></th>
+                                                        <th ><div className="th-inner "> màu xe </div></th>
+                                                        <th ><div className="th-inner sortable">Tình trạng đỗ</div></th>
                                                         <th ><div className="th-inner ">Hành động</div></th>
                                                     </tr>
                                                 </thead>
-                                                {/* <tbody>
+                                                {<tbody>
                                                     {
-                                                        customers.map((customer) => {
+                                                        vehicles.map((v) => {
                                                             id++;
                                                             return (
-                                                                <tr index={customer.id}>
+                                                                <tr index={v.id}>
                                                                     <td >{id}</td>
-                                                                    <td >{customer.customer_name}</td>
-                                                                    <td >{customer.phone_number}</td>
-                                                                    <td >{customer.address}</td>
+                                                                    <td >{v.license}</td>
+                                                                    <td >{v.vehicle_type}</td>
                                                                     <td style={{ textAlign: "center" }} ><img width={150} height={225} src={`https://raw.githubusercontent.com/Dng2511/AnilistImage/refs/heads/main/characters/10/330816.jpg`} /></td>
+                                                                    <td >{v.color}</td>
+                                                                    <td>{v.parking_status==null? "Xe không đỗ" : v.parking_status}</td>
                                                                     <td className="form-group" >
                                                                         <a href="product-edit.html" className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></a>
                                                                         <a href="product-edit.html" className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
@@ -110,7 +112,7 @@ const Vehicles = () => {
                                                         })
                                                     }
 
-                                                </tbody> */}
+                                                </tbody>}
                                             </table>
                                         </InfiniteScroll>
                                     </div>

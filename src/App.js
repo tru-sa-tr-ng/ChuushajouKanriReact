@@ -19,6 +19,8 @@ import VehiclesBikes from "./pages/vehicle/bikes";
 import Home from "./pages/home";
 
 import AddCustomer from "./pages/customer/addCustomer";
+import EditCustomer from "./pages/customer/editCustomer";
+
 import AddVehicle from "./pages/vehicle/addVehicle";
 import AddCars from "./pages/vehicle/cars/addCars";
 import AddMotorbikes from "./pages/vehicle/motorbikes/addMotorbikes";
@@ -38,10 +40,12 @@ const App = () => {
             <Route path="/customers"> 
                 <Route index element= {<Customers/>} />
                 <Route path="create" element={<AddCustomer/>} />
+                <Route path="edit/:id" element={<EditCustomer/>} />
             </Route>
             <Route path="/vehicles"> 
                 <Route index element= {<Vehicles/>} />
                 <Route path="create" element={<AddVehicle/>} />
+                <Route path="edit/:id" element={<AddVehicle/>} />
             </Route>
             <Route path="/vehicles/cars"> 
                 <Route index element= {<VehiclesCars/>} />
