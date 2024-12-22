@@ -13,11 +13,9 @@ const Sidebar = () => {
         <div id="sidebar-collapse" className="col-sm-3 col-lg-2 sidebar">
             <ul className="nav menu">
                 <li className={pathname === "/" ? "active" : ""}><a href="/"><svg className="glyph stroked dashboard-dial"><use xlinkHref="#stroked-dashboard-dial" /></svg>Dashboard</a></li>
-                <li className={pathname === "" ? "active" : ""}><a href="user.html"><svg className="glyph stroked male user "><use xlinkHref="#stroked-male-user" /></svg>Quản lý thành viên</a></li>
-                <li className={pathname === "" ? "active" : ""}><a href="category.html"><svg className="glyph stroked open folder"><use xlinkHref="#stroked-open-folder" /></svg>Quản lý danh mục</a></li>
                 <li className={pathname.startsWith("/customers") ? "active" : ""}><Link to="/customers"><svg className="glyph stroked bag"><use xlinkHref="#stroked-bag" /></svg>Quản lý khách hàng</Link></li>
-                <li className={pathname === "/vehicles" ? "active" : ""}><Link to="/vehicles">
-                    <div onClick={toggleVehiclesSubmenu}><svg className="glyph stroked bag"><use xlinkHref="#stroked-bag" /></svg>Quản lý xe</div></Link>
+                <li className={pathname === "/vehicles"&&showVehiclesSubmenu === false ? "active" : ""  }>
+                    <a><Link to="/vehicles"><svg className="glyph stroked bag"><use xlinkHref="#stroked-bag" /></svg>Quản lý xe<span onClick={toggleVehiclesSubmenu} className={showVehiclesSubmenu === true? "open-arrow" : "arrow"}></span></Link></a>
                     {showVehiclesSubmenu && (
                         <ul className="nav submenu">
                             <li className={pathname === "/vehicles/cars" ? "active" : ""}><Link to="/vehicles/cars">Ô tô</Link></li>
@@ -27,7 +25,7 @@ const Sidebar = () => {
                     )}
                 </li>
 
-                <li className={pathname === "" ? "active" : ""}><a href="comment.html"><svg className="glyph stroked two messages"><use xlinkHref="#stroked-two-messages" /></svg>Quản lý bình luận</a></li>
+                <li className={pathname.startsWith("/vehicle_types") ? "active" : ""}><Link to="/vehicle_types"><svg className="glyph stroked two messages"><use xlinkHref="#stroked-two-messages" /></svg>Quản lý loại xe</Link></li>
                 <li className={pathname === "" ? "active" : ""}><a href="ads.html"><svg className="glyph stroked chain"><use xlinkHref="#stroked-chain" /></svg>Quản lý quảng cáo</a></li>
                 <li className={pathname === "" ? "active" : ""}><a href="setting.html"><svg className="glyph stroked gear"><use xlinkHref="#stroked-gear" /></svg>Cấu hình</a></li>
             </ul>

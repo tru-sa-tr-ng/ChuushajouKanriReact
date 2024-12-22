@@ -1,29 +1,27 @@
 import React from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { getCustomers } from "../../../services/Api";
-import Searchbar from "../../../shares/components/Layout/Searchbar";
+import {  deleteVehicleType, getVehicleTypes } from "../../services/Api";
+import Searchbar from "../../shares/components/Layout/Searchbar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
 
 
-const VehiclesMotorbikes = () => {
-    const params = useParams();
-    const [searchParams] = useSearchParams();
+const VehicleTypes = () => {
     let id = 0;
     const [hasMore, setHasMore] = React.useState(true);
-    const [customers, setVehicles] = React.useState([]);
+    const [types, setTypes] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [loading, setLoading] = React.useState(false);
     React.useEffect(() => {
         setLoading(true);
-        getCustomers({
+        getVehicleTypes({
             params: {
                 page: currentPage,
                 limit: 12,
             }
         }).then(({ data }) => {
-            if (customers.length == 0) setVehicles(data.data);
-            else setVehicles((prevCustomers) => [...prevCustomers, ...data.data]);
+            if (currentPage == 1) setTypes(data.data);
+            else setTypes((prevTypes) => [...prevTypes, ...data.data]);
             setHasMore(data.pages.hasNext)
         }).catch(() => {
             setLoading(false);
@@ -33,6 +31,13 @@ const VehiclesMotorbikes = () => {
     const fetchMoreData = () => {
         setCurrentPage(currentPage + 1);
     };
+
+    const onDelete = (id) => {
+        deleteVehicleType(id);
+        setTypes((prevTypes) => prevTypes.filter((type) => type.id !== id));
+    };
+
+
 
 
     return (
@@ -47,7 +52,7 @@ const VehiclesMotorbikes = () => {
 
             <div className="row">
                 <div className="col-lg-12">
-                    <h1 className="page-header">Danh sách xe gửi</h1>
+                    <h1 className="page-header">Danh sách các loại xe</h1>
                 </div>
             </div>
 
@@ -60,7 +65,7 @@ const VehiclesMotorbikes = () => {
                                     <div className="bars pull-left">
                                         <div id="toolbar" className="btn-group">
                                             <Link to="create" className="btn btn-success">
-                                                <i className="glyphicon glyphicon-plus" /> Thêm xe
+                                                <i className="glyphicon glyphicon-plus" /> Thêm loại xe
                                             </Link>
                                         </div>
                                     </div>
@@ -71,7 +76,7 @@ const VehiclesMotorbikes = () => {
                                     </div>
                                     <div className="fixed-table-body">
                                         <InfiniteScroll
-                                            dataLength={customers.length}
+                                            dataLength={types.length}
                                             next={fetchMoreData}
                                             hasMore={hasMore}
                                             loader={
@@ -83,34 +88,30 @@ const VehiclesMotorbikes = () => {
                                                 <thead>
                                                     <tr>
                                                         <th ><div className="th-inner sortable">ID</div></th>
-                                                        <th ><div className="th-inner sortable">Tên xe</div></th>
-                                                        <th ><div className="th-inner sortable">Loại xe</div></th>
-                                                        <th ><div className="th-inner sortable">Slot đỗ xe</div></th>
-                                                        <th ><div className="th-inner ">Chủ xe</div></th>
+                                                        <th ><div className="th-inner sortable">Tên loại xe</div></th>
+                                                        <th ><div className="th-inner sortable">Giá</div></th>
                                                         <th ><div className="th-inner ">Hành động</div></th>
                                                     </tr>
                                                 </thead>
-                                                {/* <tbody>
+                                                {<tbody>
                                                     {
-                                                        customers.map((customer) => {
+                                                        types.map((t) => {
                                                             id++;
                                                             return (
-                                                                <tr index={customer.id}>
+                                                                <tr index={t.id}>
                                                                     <td >{id}</td>
-                                                                    <td >{customer.customer_name}</td>
-                                                                    <td >{customer.phone_number}</td>
-                                                                    <td >{customer.address}</td>
-                                                                    <td style={{ textAlign: "center" }} ><img width={150} height={225} src={`https://raw.githubusercontent.com/Dng2511/AnilistImage/refs/heads/main/characters/10/330816.jpg`} /></td>
+                                                                    <td >{t.title}</td>
+                                                                    <td >{t.cost}</td>
                                                                     <td className="form-group" >
-                                                                        <a href="product-edit.html" className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></a>
-                                                                        <a href="product-edit.html" className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
+                                                                        <Link to= {`edit/${t.id}`} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
+                                                                        <a onClick={() => onDelete(t.id)} className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
                                                                     </td>
                                                                 </tr>
                                                             )
                                                         })
                                                     }
 
-                                                </tbody> */}
+                                                </tbody>}
                                             </table>
                                         </InfiniteScroll>
                                     </div>
@@ -127,4 +128,4 @@ const VehiclesMotorbikes = () => {
     )
 }
 
-export default VehiclesMotorbikes;
+export default VehicleTypes;

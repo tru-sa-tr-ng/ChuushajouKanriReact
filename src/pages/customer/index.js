@@ -107,8 +107,17 @@ const Customers = () => {
                                                                     <td >{customer.address}</td>
                                                                     <td style={{ textAlign: "center" }} ><img width={150} height={225} src={`https://raw.githubusercontent.com/Dng2511/AnilistImage/refs/heads/main/characters/10/330816.jpg`} /></td>
                                                                     <td className="form-group" >
-                                                                        <Link to= {`edit/${customer.id}`} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
-                                                                        <a onClick={() => onDelete(customer.id)} className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
+                                                                        <div>
+                                                                            <Link to= {`edit/${customer.id}`} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
+                                                                            <a onClick={() => onDelete(customer.id)} className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Link to= {`edit/${customer.id}`} className="btn btn-success">Xem danh sách xe</Link>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Link to= {`edit/${customer.id}`} className="btn btn-info">Xem danh sách vé</Link>
+                                                                        </div>
+                                                                        
                                                                     </td>
                                                                 </tr>
                                                             )

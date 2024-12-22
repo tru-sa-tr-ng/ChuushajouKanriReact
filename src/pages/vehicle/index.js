@@ -22,7 +22,7 @@ const Vehicles = () => {
                 limit: 12,
             }
         }).then(({ data }) => {
-            if (vehicles.length == 0) setVehicles(data.data);
+            if (currentPage == 1) setVehicles(data.data);
             else setVehicles((prevVehicles) => [...prevVehicles, ...data.data]);
             setHasMore(data.pages.hasNext)
         }).catch(() => {

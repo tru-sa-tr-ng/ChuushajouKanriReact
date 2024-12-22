@@ -938,3 +938,35 @@ h1.page-header {
     text-indent: 50px;
 }
 
+
+
+  
+  .nav li .arrow {
+	display: inline-block;
+	margin-left: 100px; /* Đẩy mũi tên về phía cuối */
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 7px solid #333; /* Mũi tên chỉ xuống */
+  }
+
+  .nav li .arrow:hover {
+	border-top-color: #8330ff;
+  }
+
+  
+  .nav li .open-arrow {
+	display: inline-block;
+	margin-left: 100px; /* Đẩy mũi tên về phía cuối */
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: none;
+	border-bottom: 7px solid #333; /* Đổi hướng mũi tên khi mở submenu */
+  }
+  
+  .nav li .open-arrow:hover {
+	border-bottom-color: #8330ff;
+  }

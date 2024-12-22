@@ -1,5 +1,5 @@
 import React from 'react';
-import { createCustomer, getCustomerById } from '../../services/Api';
+import { getCustomerById, updateCustomer } from '../../services/Api';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditCustomer = () => {
@@ -20,7 +20,7 @@ const EditCustomer = () => {
     },[id]);
 
     const onSubmit = () => {
-        createCustomer(info).then(({ data }) => {
+        updateCustomer(id, info).then(({ data }) => {
             if (data.status === "success") {
                 console.log("OK");
                 return navigate("/customers")
@@ -75,7 +75,7 @@ const EditCustomer = () => {
                                     </div>
                                 </div>
                             </div>
-                            <button name="sbm" type="submit" onClick={onSubmit} className="btn btn-success">Thêm mới</button>
+                            <button name="sbm" type="submit" onClick={onSubmit} className="btn btn-success">Sửa</button>
                             <button type="reset" className="btn btn-default" onClick={onClearInfo}>Làm mới</button>
                         </div>
                     </div>
