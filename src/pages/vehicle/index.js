@@ -1,14 +1,15 @@
 import React from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
-import {  getVehicles } from "../../services/Api";
+import { Link, useSearchParams } from "react-router-dom";
+import { deleteVehicle, getVehicles } from "../../services/Api";
 import Searchbar from "../../shares/components/Layout/Searchbar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
-
+import PageTitle from "../../shares/components/Layout/PageTitle";
 
 const Vehicles = () => {
-    const params = useParams();
     const [searchParams] = useSearchParams();
+    const type_id = searchParams.get("type_id") || null;
+    const customer_id = searchParams.get("customer_id") || null;
     let id = 0;
     const [hasMore, setHasMore] = React.useState(true);
     const [vehicles, setVehicles] = React.useState([]);
@@ -20,6 +21,8 @@ const Vehicles = () => {
             params: {
                 page: currentPage,
                 limit: 12,
+                type_id,
+                customer_id,
             }
         }).then(({ data }) => {
             if (currentPage == 1) setVehicles(data.data);
@@ -27,30 +30,45 @@ const Vehicles = () => {
             setHasMore(data.pages.hasNext)
         }).catch(() => {
             setLoading(false);
-        });;
-    }, [currentPage])
+        });
+    }, [currentPage]);
+
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+        setCurrentPage(1);
+        setLoading(true);
+        getVehicles({
+            params: {
+                page: currentPage,
+                limit: 12,
+                type_id,
+                customer_id
+            }
+        }).then(({ data }) => {
+            setVehicles(data.data)
+        }).catch(() => {
+            setLoading(false);
+        });
+    }, [type_id, customer_id]);
+
+
+
 
     const fetchMoreData = () => {
         setCurrentPage(currentPage + 1);
     };
 
 
+    const onDelete = (id) => {
+        deleteVehicle(id);
+        setVehicles((prevTypes) => prevTypes.filter((v) => v.id !== id));
+    };
+
+
     return (
         <>
-            <div className="row">
-                <ol className="breadcrumb">
-                    <li><a href="#"><svg className="glyph stroked home"><use xlinkHref="#stroked-home" /></svg></a></li>
-                    <li className="active">Danh sách xe gửi</li>
-                </ol>
-            </div>
+            <PageTitle title={"Danh sách phương tiện"} />
             <Searchbar />
-
-            <div className="row">
-                <div className="col-lg-12">
-                    <h1 className="page-header">Danh sách xe gửi</h1>
-                </div>
-            </div>
-
             <div className="row">
                 <div className="col-lg-12">
                     <div className="panel panel-default">
@@ -102,10 +120,10 @@ const Vehicles = () => {
                                                                     <td >{v.vehicle_type}</td>
                                                                     <td style={{ textAlign: "center" }} ><img width={150} height={225} src={`https://raw.githubusercontent.com/Dng2511/AnilistImage/refs/heads/main/characters/10/330816.jpg`} /></td>
                                                                     <td >{v.color}</td>
-                                                                    <td>{v.parking_status==null? "Xe không đỗ" : v.parking_status}</td>
+                                                                    <td>{v.parking_status == null ? "Xe không đỗ" : v.parking_status}</td>
                                                                     <td className="form-group" >
-                                                                        <a href="product-edit.html" className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></a>
-                                                                        <a href="product-edit.html" className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
+                                                                        <Link to={"/vehicles"} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
+                                                                        <a onClick={() => onDelete(v.id)} className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
                                                                     </td>
                                                                 </tr>
                                                             )

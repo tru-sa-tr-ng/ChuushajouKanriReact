@@ -1,6 +1,7 @@
 import React from 'react';
 import { getCustomerById, updateCustomer } from '../../services/Api';
 import { useNavigate, useParams } from 'react-router-dom';
+import PageTitle from '../../shares/components/Layout/PageTitle';
 
 const EditCustomer = () => {
     const {id} = useParams();
@@ -15,9 +16,7 @@ const EditCustomer = () => {
         getCustomerById(id).then(({data}) => {
             setInfo(data.data.customer)
         });
-        
-
-    },[id]);
+},[id]);
 
     const onSubmit = () => {
         updateCustomer(id, info).then(({ data }) => {
@@ -33,18 +32,7 @@ const EditCustomer = () => {
 
     return (
         <>
-            <div className="row">
-                <ol className="breadcrumb">
-                    <li><a href="#"><svg className="glyph stroked home"><use xlinkHref="#stroked-home" /></svg></a></li>
-                    <li className="active">Thêm khách hàng</li>
-                </ol>
-            </div>
-
-            <div className="row">
-                <div className="col-lg-12">
-                    <h1 className="page-header">Thêm khách hàng</h1>
-                </div>
-            </div>
+            <PageTitle title={"Chỉnh sửa khách hàng"}/>
             <div className="row">
                 <div className="col-lg-12">
                     <div className="panel panel-default">
@@ -62,6 +50,10 @@ const EditCustomer = () => {
                                     <div className="form-group">
                                         <label>Địa chỉ</label>
                                         <input required name="address" type="text" className="form-control" onChange={onChangeInfo} value={info.address || ""} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Tiền trong tài khoản</label>
+                                        <input required name="remain" type="number" className="form-control" onChange={onChangeInfo} value={info.remain || ""} />
                                     </div>
 
                                 </form></div>
@@ -83,7 +75,6 @@ const EditCustomer = () => {
             </div>
         </>
     )
-
 };
 
 export default EditCustomer;

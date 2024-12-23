@@ -10,7 +10,8 @@ const AddType = () => {
         setInfo({ ...info, [name]: value });
     }
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
         createVehicleType(info).then(({ data }) => {
             if (data.status === "success") {
                 console.log("OK");
