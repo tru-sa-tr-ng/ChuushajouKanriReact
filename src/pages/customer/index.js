@@ -1,14 +1,18 @@
 import React from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { deleteCustomer, getCustomers } from "../../services/Api";
 import Searchbar from "../../shares/components/Layout/Searchbar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
+import highlightText from "../../shares/constants/highlightSearch"
+import PageTitle from "../../shares/components/Layout/PageTitle";
 
 
 const Customers = () => {
     const params = useParams();
-    const [searchParams] = useSearchParams();
+    const [search, setSearch] = React.useState('');
+
+    const onSeacrh = (value) => setSearch(value);
     let id = 0;
     const [hasMore, setHasMore] = React.useState(true);
     const [customers, setCustomers] = React.useState([]);
@@ -20,6 +24,7 @@ const Customers = () => {
             params: {
                 page: currentPage,
                 limit: 12,
+                search: search,
             }
         }).then(({ data }) => {
             if (customers.length == 0) setCustomers(data.data);
@@ -28,7 +33,23 @@ const Customers = () => {
         }).catch(() => {
             setLoading(false);
         });;
-    }, [currentPage])
+    }, [currentPage]);
+
+    React.useEffect(() => {
+        setCurrentPage(1);
+        setLoading(true);
+        getCustomers({
+            params: {
+                page: currentPage,
+                limit: 12,
+                search: search,
+            }
+        }).then(({ data }) => {
+            setCustomers(data.data)
+        }).catch(() => {
+            setLoading(false);
+        });
+    }, [search]);
 
     const fetchMoreData = () => {
         setCurrentPage(currentPage + 1);
@@ -42,19 +63,9 @@ const Customers = () => {
 
     return (
         <>
-            <div className="row">
-                <ol className="breadcrumb">
-                    <li><a href="#"><svg className="glyph stroked home"><use xlinkHref="#stroked-home" /></svg></a></li>
-                    <li className="active">Danh sách khách hàng</li>
-                </ol>
-            </div>
-            <Searchbar />
+            <PageTitle title={"Danh sách khách hàng"}/>
 
-            <div className="row">
-                <div className="col-lg-12">
-                    <h1 className="page-header">Danh sách khách hàng</h1>
-                </div>
-            </div>
+            <Searchbar onSearch={onSeacrh} />
 
             <div className="row">
                 <div className="col-lg-12">
@@ -91,6 +102,7 @@ const Customers = () => {
                                                         <th ><div className="th-inner sortable">Tên khách hàng</div></th>
                                                         <th ><div className="th-inner sortable">Số điện thoại</div></th>
                                                         <th ><div className="th-inner sortable">Địa chỉ</div></th>
+                                                        <th ><div className="th-inner">Tiền tk</div></th>
                                                         <th ><div className="th-inner ">Ảnh </div></th>
                                                         <th ><div className="th-inner ">Hành động</div></th>
                                                     </tr>
@@ -102,28 +114,36 @@ const Customers = () => {
                                                             return (
                                                                 <tr>
                                                                     <td >{id}</td>
-                                                                    <td >{customer.customer_name}</td>
-                                                                    <td >{customer.phone_number}</td>
+                                                                    <td
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: highlightText(customer.customer_name, search)
+                                                                        }}
+                                                                    />
+                                                                    <td
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: highlightText(customer.phone_number, search)
+                                                                        }}
+                                                                    />
                                                                     <td >{customer.address}</td>
+                                                                    <td>{customer.remain}</td>
                                                                     <td style={{ textAlign: "center" }} ><img width={150} height={225} src={`https://raw.githubusercontent.com/Dng2511/AnilistImage/refs/heads/main/characters/10/330816.jpg`} /></td>
                                                                     <td className="form-group" >
                                                                         <div>
-                                                                            <Link to= {`edit/${customer.id}`} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
+                                                                            <Link to={`edit/${customer.id}`} className="btn btn-primary"><i className="glyphicon glyphicon-pencil" /></Link>
                                                                             <a onClick={() => onDelete(customer.id)} className="btn btn-danger"><i className="glyphicon glyphicon-remove" /></a>
                                                                         </div>
                                                                         <div>
-                                                                            <Link to= {`edit/${customer.id}`} className="btn btn-success">Xem danh sách xe</Link>
+                                                                            <Link to={`/vehicles?customer_id=${customer.id}`} className="btn btn-success">Xem danh sách xe</Link>
                                                                         </div>
                                                                         <div>
-                                                                            <Link to= {`edit/${customer.id}`} className="btn btn-info">Xem danh sách vé</Link>
+                                                                            <Link to={`/tickets?customer_id=${customer.id}`} className="btn btn-info">Xem danh sách vé</Link>
                                                                         </div>
-                                                                        
+
                                                                     </td>
                                                                 </tr>
                                                             )
                                                         })
                                                     }
-
                                                 </tbody>
                                             </table>
                                         </InfiniteScroll>

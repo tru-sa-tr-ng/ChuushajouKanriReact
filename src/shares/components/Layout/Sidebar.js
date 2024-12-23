@@ -1,13 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import React from "react";
+import { getVehicleTypes } from "../../../services/Api";
 
 const Sidebar = () => {
     const pathname = useLocation().pathname;
     const [showVehiclesSubmenu, setShowVehiclesSubmenu] = useState(false);
+    const [types, setTypes] = useState([]);
 
     const toggleVehiclesSubmenu = () => {
         setShowVehiclesSubmenu(!showVehiclesSubmenu);
     };
+
+
+    React.useEffect(() => {
+        getVehicleTypes().then(({ data }) => {setTypes(data.data);
+        })
+    },[]);
 
     return (
         <div id="sidebar-collapse" className="col-sm-3 col-lg-2 sidebar">
@@ -18,9 +27,7 @@ const Sidebar = () => {
                     <a><Link to="/vehicles"><svg className="glyph stroked bag"><use xlinkHref="#stroked-bag" /></svg>Quản lý xe<span onClick={toggleVehiclesSubmenu} className={showVehiclesSubmenu === true? "open-arrow" : "arrow"}></span></Link></a>
                     {showVehiclesSubmenu && (
                         <ul className="nav submenu">
-                            <li className={pathname === "/vehicles/cars" ? "active" : ""}><Link to="/vehicles/cars">Ô tô</Link></li>
-                            <li className={pathname === "/vehicles/motorbikes" ? "active" : ""}><Link to="/vehicles/motorbikes">Xe máy</Link></li>
-                            <li className={pathname === "/vehicles/bikes" ? "active" : ""}><Link to="/vehicles/bikes">Xe đạp</Link></li>
+                            {types.map((t) => <li className={pathname === `/vehicles?type_id=${t.id}` ? "active" : ""}><Link to={`/vehicles?type_id=${t.id}`}>{t.title}</Link></li>)}
                         </ul>
                     )}
                 </li>

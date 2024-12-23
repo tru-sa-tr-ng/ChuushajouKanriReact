@@ -1,6 +1,7 @@
 import React from 'react';
 import { createCustomer } from '../../services/Api';
 import { useNavigate } from 'react-router-dom';
+import PageTitle from '../../shares/components/Layout/PageTitle';
 
 const AddCustomer = () => {
     const navigate = useNavigate();
@@ -24,18 +25,7 @@ const AddCustomer = () => {
 
     return (
         <>
-            <div className="row">
-                <ol className="breadcrumb">
-                    <li><a href="#"><svg className="glyph stroked home"><use xlinkHref="#stroked-home" /></svg></a></li>
-                    <li className="active">Thêm khách hàng</li>
-                </ol>
-            </div>
-
-            <div className="row">
-                <div className="col-lg-12">
-                    <h1 className="page-header">Thêm khách hàng</h1>
-                </div>
-            </div>
+            <PageTitle title={"Thêm khách hàng"}/>
             <div className="row">
                 <div className="col-lg-12">
                     <div className="panel panel-default">
@@ -53,6 +43,10 @@ const AddCustomer = () => {
                                     <div className="form-group">
                                         <label>Địa chỉ</label>
                                         <input required name="address" type="text" className="form-control" onChange={onChangeInfo} value={info.address || ""} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Số tiền</label>
+                                        <input required name="remain" type="number" className="form-control" onChange={onChangeInfo} value={info.remain || ""} />
                                     </div>
 
                                 </form></div>

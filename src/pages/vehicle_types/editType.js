@@ -1,6 +1,7 @@
 import React from 'react';
 import { getVehicleTypeById, updateVehicleType } from '../../services/Api';
 import { useNavigate, useParams } from 'react-router-dom';
+import PageTitle from "../../shares/components/Layout/PageTitle";
 
 const EditType = () => {
     const {id} = useParams();
@@ -33,6 +34,7 @@ const EditType = () => {
 
     return (
         <>
+            <PageTitle title={"Chỉnh sửa loại phương tiện"}/>
             <div className="row">
                 <ol className="breadcrumb">
                     <li><a href="#"><svg className="glyph stroked home"><use xlinkHref="#stroked-home" /></svg></a></li>

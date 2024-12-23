@@ -8,29 +8,15 @@ import { ClipLoader } from "react-spinners";
 
 const VehicleTypes = () => {
     let id = 0;
-    const [hasMore, setHasMore] = React.useState(true);
     const [types, setTypes] = React.useState([]);
-    const [currentPage, setCurrentPage] = React.useState(1);
     const [loading, setLoading] = React.useState(false);
     React.useEffect(() => {
         setLoading(true);
-        getVehicleTypes({
-            params: {
-                page: currentPage,
-                limit: 12,
-            }
-        }).then(({ data }) => {
-            if (currentPage == 1) setTypes(data.data);
-            else setTypes((prevTypes) => [...prevTypes, ...data.data]);
-            setHasMore(data.pages.hasNext)
+        getVehicleTypes().then(({ data }) => {setTypes(data.data);
         }).catch(() => {
             setLoading(false);
-        });;
-    }, [currentPage])
-
-    const fetchMoreData = () => {
-        setCurrentPage(currentPage + 1);
-    };
+        });
+    },[]);
 
     const onDelete = (id) => {
         deleteVehicleType(id);
@@ -75,15 +61,6 @@ const VehicleTypes = () => {
                                         <table />
                                     </div>
                                     <div className="fixed-table-body">
-                                        <InfiniteScroll
-                                            dataLength={types.length}
-                                            next={fetchMoreData}
-                                            hasMore={hasMore}
-                                            loader={
-                                                <div style={{ textAlign: "center", padding: "20px" }}>
-                                                    <ClipLoader color="#00BFFF" loading={loading} size={50} />
-                                                </div>
-                                            }>
                                             <table data-toolbar="#toolbar" data-toggle="table" className="table table-hover">
                                                 <thead>
                                                     <tr>
@@ -113,7 +90,6 @@ const VehicleTypes = () => {
 
                                                 </tbody>}
                                             </table>
-                                        </InfiniteScroll>
                                     </div>
                                 </div>
                             </div>

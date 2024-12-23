@@ -943,7 +943,7 @@ h1.page-header {
   
   .nav li .arrow {
 	display: inline-block;
-	margin-left: 100px; /* Đẩy mũi tên về phía cuối */
+	margin-left: 110px; /* Đẩy mũi tên về phía cuối */
 	width: 0;
 	height: 0;
 	border-left: 7px solid transparent;
@@ -958,7 +958,7 @@ h1.page-header {
   
   .nav li .open-arrow {
 	display: inline-block;
-	margin-left: 100px; /* Đẩy mũi tên về phía cuối */
+	margin-left: 110px; /* Đẩy mũi tên về phía cuối */
 	width: 0;
 	height: 0;
 	border-left: 7px solid transparent;

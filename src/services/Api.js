@@ -8,9 +8,14 @@ export const updateCustomer = (id, data) => Http.put(`/customers/${id}`, data);
 export const deleteCustomer = (id) => Http.delete(`/customers/${id}`, id);
 
 export const getVehicles = (config)=>Http.get(`/vehicles`, config);
+export const getVehicleById = (id, config)=> Http.get(`/vehicles/${id}`, config);
+export const createVehicle = (data) => Http.post("/vehicles/create", data);
+export const updateVehicle = (id, data) => Http.put(`/vehicles/${id}`, data);
+export const deleteVehicle = (id) => Http.delete(`/vehicles/${id}`);
 
-export const getVehicleTypes = (config)=>Http.get("/vehicle_types", config);
+export const getVehicleTypes = ()=>Http.get("/vehicle_types");
 export const getVehicleTypeById = (id) => Http.get(`/vehicle_types/${id}`);
+
 export const createVehicleType = (data) => Http.post("/vehicle_types/create", data);
 export const updateVehicleType = (id, data) => Http.put(`/vehicle_types/${id}`, data);
 export const deleteVehicleType = (id) => Http.delete(`/vehicle_types/${id}`);
